@@ -27,15 +27,11 @@ jobs:
         run: |
           BUILD_URL="https://downloads.immortalwrt.org/snapshots/targets/armsr/armv8/immortalwrt-imagebuilder-armsr-armv8.Linux-x86_64.tar.zst"
           wget $BUILD_URL
-          zstd -d immortalwrt-imagebuilder-*.tar.zst
-          tar -xf immortalwrt-imagebuilder-*.tar
-          rm -rf immortalwrt-imagebuilder-*.tar
-          rm -rf immortalwrt-imagebuilder-*.tar.zst
-          mv immortalwrt-imagebuilder-* immortalwrt-imagebuilder
+          tar -I zstd -xvf immortalwrt-imagebuilder-*.tar.zst
 
       - name: Prepare Custom Shell
         run: |
-          cd immortalwrt-imagebuilder
+          cd immortalwrt-imagebuilder-armsr-armv8.Linux-x86_64
           mkdir -p files/etc/uci-defaults
           wget -O files/etc/uci-defaults/01-init-settings \
             https://raw.githubusercontent.com/soapmancn/immortalwrt-workflow/main/.github/workflows/01-init-settings
@@ -43,7 +39,6 @@ jobs:
 
       - name: Download Custom Plugins
         run: |
-          cd immortalwrt-imagebuilder
           wget -O packages/luci-app-passwall2-25.9.24-r1.apk \
             https://github.com/soapmancn/luci-app-passwall2/releases/download/main/luci-app-passwall2-25.9.24-r1.apk
           wget -O packages/luci-i18n-passwall2-zh-cn-25.266.57814.ef38d45.apk \
@@ -51,10 +46,6 @@ jobs:
 
       - name: Build Image
         run: |
-          cd immortalwrt-imagebuilder
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
-          make package/index
           make image PROFILE=generic \
           PACKAGES="luci luci-app-passwall2 luci-i18n-passwall2-zh-cn luci-i18n-package-manager-zh-cn luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn luci-i18n-ddns-go-zh-cn luci-app-ddns-go ddns-go luci-i18n-ddns-go-zh-cn openssh-sftp-server etherwake wireguard-tools kmod-wireguard luci-proto-wireguard kmod-nft-socket kmod-nft-tproxy sing-box hysteria" \
           FILES="files" \
