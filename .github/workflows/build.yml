@@ -50,6 +50,9 @@ jobs:
 
       - name: Build Image
         run: |
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+          make package/index
           make image PROFILE=generic \
           PACKAGES="luci luci-app-passwall2 luci-i18n-passwall2-zh-cn luci-i18n-package-manager-zh-cn luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn luci-i18n-ddns-go-zh-cn luci-app-ddns-go ddns-go luci-i18n-ddns-go-zh-cn openssh-sftp-server etherwake wireguard-tools kmod-wireguard luci-proto-wireguard kmod-nft-socket kmod-nft-tproxy sing-box hysteria" \
           FILES="files" \
