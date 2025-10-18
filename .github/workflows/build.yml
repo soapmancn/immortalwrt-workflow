@@ -29,16 +29,13 @@ jobs:
           wget $BUILD_URL
           tar -I zstd -xvf immortalwrt-imagebuilder-*.tar.zst
 
-      - name: Prepare Custom Shell
+      - name: Build Image
         run: |
           cd immortalwrt-imagebuilder-armsr-armv8.Linux-x86_64
           mkdir -p files/etc/uci-defaults
           wget -O files/etc/uci-defaults/01-init-settings \
             https://raw.githubusercontent.com/soapmancn/immortalwrt-workflow/main/.github/workflows/01-init-settings
-          find files/etc/uci-defaults -type f -exec chmod +x {} \;
-
-      - name: Build Image
-        run: |
+          chmod +x files/etc/uci-defaults/01-init-settings
           make image PROFILE=generic \
           PACKAGES="luci luci-i18n-package-manager-zh-cn luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn luci-i18n-ddns-go-zh-cn luci-app-ddns-go ddns-go luci-i18n-ddns-go-zh-cn openssh-sftp-server etherwake wireguard-tools kmod-wireguard luci-proto-wireguard kmod-nft-socket kmod-nft-tproxy sing-box hysteria" \
           FILES="files" \
