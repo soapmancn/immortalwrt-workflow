@@ -37,13 +37,6 @@ jobs:
             https://raw.githubusercontent.com/soapmancn/immortalwrt-workflow/main/.github/workflows/01-init-settings
           find files/etc/uci-defaults -type f -exec chmod +x {} \;
 
-      - name: Download Custom Plugins
-        run: |
-          wget -O packages/luci-app-passwall2-25.9.24-r1.apk \
-            https://github.com/soapmancn/luci-app-passwall2/releases/download/main/luci-app-passwall2-25.9.24-r1.apk
-          wget -O packages/luci-i18n-passwall2-zh-cn-25.266.57814.ef38d45.apk \
-            https://github.com/soapmancn/luci-app-passwall2/releases/download/main/luci-i18n-passwall2-zh-cn-25.266.57814.ef38d45.apk
-
       - name: Build Image
         run: |
           make image PROFILE=generic \
