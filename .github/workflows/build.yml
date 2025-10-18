@@ -37,7 +37,7 @@ jobs:
         run: |
           cd immortalwrt-imagebuilder
           mkdir -p files/etc/uci-defaults
-          cp -a ../01-init-settings/. files/etc/uci-defaults/
+          cp -a ../.github/workflows/01-init-settings/. files/etc/uci-defaults/
           find files/etc/uci-defaults -type f -exec chmod +x {} \;
 
       - name: Download Custom Plugins
