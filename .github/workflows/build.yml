@@ -43,6 +43,7 @@ jobs:
 
       - name: Download Custom Plugins
         run: |
+          cd immortalwrt-imagebuilder
           wget -O packages/luci-app-passwall2.apk \
             https://github.com/soapmancn/luci-app-passwall2/releases/download/main/luci-app-passwall2-25.9.24-r1.apk
           wget -O packages/luci-i18n-passwall2-zh-cn.apk \
@@ -50,6 +51,7 @@ jobs:
 
       - name: Build Image
         run: |
+          cd immortalwrt-imagebuilder
           ./scripts/feeds update -a
           ./scripts/feeds install -a
           make package/index
